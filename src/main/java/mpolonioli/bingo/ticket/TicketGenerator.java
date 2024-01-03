@@ -12,7 +12,7 @@ public class TicketGenerator {
     public Set<Set<Integer>> generateTicketStrip() {
 
         // Prepare the initial sequences of values from 1 to 90
-        ArrayList<ArrayList<Integer>> sequences = getSequences();
+        ArrayList<ArrayList<Integer>> sequences = getInitialSequences();
 
         // Prepare the tickets variable
         Set<Set<Integer>> ticketStrip = new HashSet<>();
@@ -31,11 +31,20 @@ public class TicketGenerator {
     }
 
     /**
-     * Generates a random ticket that uses only the numbers contained in the given "sequences"
+     * Generate a random, well-formed, Bingo ticket
+     *
+     * @return a Bingo ticket
+     */
+    public Set<Integer> generateTicket() {
+        return generateTicket(getInitialSequences(), 1);
+    }
+
+    /**
+     * Generates a random, well-formed, Bingo ticket that uses only the numbers contained in the given "sequences"
      * also taking in consideration that there are 6 - "ticketNumInStrip" remaining tickets to complete a strip
      * @param sequences the sequences of numbers to consider, it must contain numbers from 1 to 90
      * @param ticketNumInStrip the number of tickets already present in a strip, also considering this one
-     * @return a well-formed random Bingo ticket
+     * @return a Bingo ticket
      */
     private Set<Integer> generateTicket(ArrayList<ArrayList<Integer>> sequences, int ticketNumInStrip) {
         // Prepare the ticket variable
@@ -97,7 +106,7 @@ public class TicketGenerator {
      *
      * @return a mutable list of 9 lists of integers from 1 to 90
      */
-    private ArrayList<ArrayList<Integer>> getSequences() {
+    private ArrayList<ArrayList<Integer>> getInitialSequences() {
         return new ArrayList<>(List.of(
                 new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9)),
                 new ArrayList<>(List.of(10, 11, 12, 13, 14, 15, 16, 17, 18, 19)),
