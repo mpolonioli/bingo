@@ -1,6 +1,8 @@
+package mpolonioli.bingo;
+
 import java.util.*;
 
-public class Main {
+public class App {
     public static void main(String[] args) {
 
         // Prepare the initial sequences of values from 1 to 90
