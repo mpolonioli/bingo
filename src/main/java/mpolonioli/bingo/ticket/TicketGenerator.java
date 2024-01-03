@@ -4,13 +4,13 @@ import java.util.*;
 
 public class TicketGenerator {
 
-    public Set<Set<Integer>> generateTicketSeries() {
+    public Set<Set<Integer>> generateTicketStrip() {
 
         // Prepare the initial sequences of values from 1 to 90
         List<List<Integer>> sequences = getSequences();
 
         // Prepare the tickets variable
-        Set<Set<Integer>> ticketSeries = new HashSet<>();
+        Set<Set<Integer>> ticketStrip = new HashSet<>();
 
         for (int i = 1; i <= 6; i++) {
 
@@ -65,11 +65,11 @@ public class TicketGenerator {
             }
 
             // Add the generated ticket in tickets
-            ticketSeries.add(ticket);
+            ticketStrip.add(ticket);
         }
 
-        // Return the ticket series
-        return ticketSeries;
+        // Return the ticket strip
+        return ticketStrip;
     }
 
     // Get a fully populated list of sequences of values from 1 to 90

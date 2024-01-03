@@ -7,11 +7,11 @@ import java.util.*;
 public class App {
     public static void main(String[] args) {
 
-        // Generate ticket series
+        // Generate ticket strip
         TicketGenerator ticketGenerator = new TicketGenerator();
-        Set<Set<Integer>> ticketSeries = ticketGenerator.generateTicketSeries();
+        Set<Set<Integer>> ticketStrip = ticketGenerator.generateTicketStrip();
 
         // Print the tickets
-        System.out.println(ticketSeries);
+        System.out.println(ticketStrip);
     }
 }
