@@ -7,17 +7,7 @@ public class TicketGenerator {
     public Set<Set<Integer>> generateTicketSeries() {
 
         // Prepare the initial sequences of values from 1 to 90
-        List<List<Integer>> sequences = new ArrayList<>(List.of(
-                new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9)),
-                new ArrayList<>(List.of(10, 11, 12, 13, 14, 15, 16, 17, 18, 19)),
-                new ArrayList<>(List.of(20, 21, 22, 23, 24, 25, 26, 27, 28, 29)),
-                new ArrayList<>(List.of(30, 31, 32, 33, 34, 35, 36, 37, 38, 39)),
-                new ArrayList<>(List.of(40, 41, 42, 43, 44, 45, 46, 47, 48, 49)),
-                new ArrayList<>(List.of(50, 51, 52, 53, 54, 55, 56, 57, 58, 59)),
-                new ArrayList<>(List.of(60, 61, 62, 63, 64, 65, 66, 67, 68, 69)),
-                new ArrayList<>(List.of(70, 71, 72, 73, 74, 75, 76, 77, 78, 79)),
-                new ArrayList<>(List.of(80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90))
-        ));
+        List<List<Integer>> sequences = getSequences();
 
         // Prepare the tickets variable
         Set<Set<Integer>> ticketSeries = new HashSet<>();
@@ -80,5 +70,20 @@ public class TicketGenerator {
 
         // Return the ticket series
         return ticketSeries;
+    }
+
+    // Get a fully populated list of sequences of values from 1 to 90
+    private List<List<Integer>> getSequences() {
+        return new ArrayList<>(List.of(
+                new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9)),
+                new ArrayList<>(List.of(10, 11, 12, 13, 14, 15, 16, 17, 18, 19)),
+                new ArrayList<>(List.of(20, 21, 22, 23, 24, 25, 26, 27, 28, 29)),
+                new ArrayList<>(List.of(30, 31, 32, 33, 34, 35, 36, 37, 38, 39)),
+                new ArrayList<>(List.of(40, 41, 42, 43, 44, 45, 46, 47, 48, 49)),
+                new ArrayList<>(List.of(50, 51, 52, 53, 54, 55, 56, 57, 58, 59)),
+                new ArrayList<>(List.of(60, 61, 62, 63, 64, 65, 66, 67, 68, 69)),
+                new ArrayList<>(List.of(70, 71, 72, 73, 74, 75, 76, 77, 78, 79)),
+                new ArrayList<>(List.of(80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90))
+        ));
     }
 }
