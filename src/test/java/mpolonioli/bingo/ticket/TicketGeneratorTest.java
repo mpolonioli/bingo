@@ -83,7 +83,7 @@ public class TicketGeneratorTest {
     }
 
     /**
-     * Checks that the given ticket strips is well-formed
+     * Checks that the given ticket strip is well-formed
      */
     private void checkTicketStrip(Set<Set<Integer>> ticketStrip) {
 
