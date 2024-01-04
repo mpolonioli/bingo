@@ -84,7 +84,7 @@ public class TicketGenerator {
 
             // Count how many values of the same original sequence is present in ticket
             int valuesInSequence = (int) ticketNumbers.stream()
-                    .filter(n -> n / 10 == (value == 90 ? value - 1 : value) / 10)
+                    .filter(n -> n / 10 == (value == 90 ? 8 : value / 10))
                     .count();
 
             // Remove the sequence from the available ones if:
