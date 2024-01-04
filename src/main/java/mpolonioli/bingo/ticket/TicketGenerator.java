@@ -15,7 +15,7 @@ public class TicketGenerator {
         ArrayList<ArrayList<Integer>> sequences = getInitialSequences();
 
         // Prepare the tickets variable
-        Set<Set<Integer>> ticketStrip = new HashSet<>();
+        Set<Set<Integer>> ticketStripNumbers = new HashSet<>();
 
         for (int ticketNumInStrip = 1; ticketNumInStrip <= 6; ticketNumInStrip++) {
 
@@ -23,11 +23,11 @@ public class TicketGenerator {
             Set<Integer> ticket = generateTicket(sequences, ticketNumInStrip);
 
             // Add the generated ticket in tickets
-            ticketStrip.add(ticket);
+            ticketStripNumbers.add(ticket);
         }
 
         // Return the ticket strip
-        return ticketStrip;
+        return ticketStripNumbers;
     }
 
     /**
@@ -48,11 +48,11 @@ public class TicketGenerator {
      */
     private Set<Integer> generateTicket(ArrayList<ArrayList<Integer>> sequences, int ticketNumInStrip) {
         // Prepare the ticket variable
-        Set<Integer> ticket = new HashSet<>();
+        Set<Integer> ticketNumbers = new HashSet<>();
 
         // Add one random number from each sequence to the ticket (9)
         for (List<Integer> sequence: sequences) {
-            ticket.add(sequence.remove(new Random().nextInt(sequence.size())));
+            ticketNumbers.add(sequence.remove(new Random().nextInt(sequence.size())));
         }
 
         // Consider only the sequences that contains fewer numbers than the remaining tickets to generate
@@ -77,13 +77,13 @@ public class TicketGenerator {
             Integer value = sequence.remove(new Random().nextInt(sequence.size()));
 
             // Add the selected value to the ticket
-            ticket.add(value);
+            ticketNumbers.add(value);
 
             // Remove the selected value also from sequences
             sequences.forEach(s -> s.remove(value));
 
             // Count how many values of the same original sequence is present in ticket
-            int valuesInSequence = (int) ticket.stream()
+            int valuesInSequence = (int) ticketNumbers.stream()
                     .filter(n -> n / 10 == (value == 90 ? value - 1 : value) / 10)
                     .count();
 
@@ -95,7 +95,7 @@ public class TicketGenerator {
                 availableSequences.remove(sequenceIndex);
             }
         }
-        return ticket;
+        return ticketNumbers;
     }
 
     /**

@@ -9,9 +9,9 @@ public class App {
 
         // Generate ticket strip
         TicketGenerator ticketGenerator = new TicketGenerator();
-        Set<Set<Integer>> ticketStrip = ticketGenerator.generateTicketStrip();
+        Set<Set<Integer>> ticketStripNumbers = ticketGenerator.generateTicketStrip();
 
         // Print the tickets
-        System.out.println(ticketStrip);
+        System.out.println(ticketStripNumbers);
     }
 }

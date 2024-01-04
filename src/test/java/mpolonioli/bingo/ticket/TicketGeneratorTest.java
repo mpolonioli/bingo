@@ -30,10 +30,10 @@ public class TicketGeneratorTest {
         TicketGenerator ticketGenerator = new TicketGenerator();
 
         // Generate a random ticket
-        Set<Integer> ticket = ticketGenerator.generateTicket();
+        Set<Integer> ticketNumbers = ticketGenerator.generateTicket();
 
         // Check if ticket is well-formed
-        checkTicket(ticket);
+        checkTicket(ticketNumbers);
     }
 
     @Test
@@ -43,10 +43,10 @@ public class TicketGeneratorTest {
         TicketGenerator ticketGenerator = new TicketGenerator();
 
         // Generate a random ticket
-        Set<Set<Integer>> ticketStrip = ticketGenerator.generateTicketStrip();
+        Set<Set<Integer>> ticketStripNumbers = ticketGenerator.generateTicketStrip();
 
         // Check if ticket is well-formed
-        checkTicketStrip(ticketStrip);
+        checkTicketStrip(ticketStripNumbers);
     }
 
     @Test
@@ -63,10 +63,10 @@ public class TicketGeneratorTest {
     /**
      * Checks that the given ticket is well-formed
      */
-    private void checkTicket(Set<Integer> ticket) {
+    private void checkTicket(Set<Integer> ticketNumbers) {
 
         // Check ticket size
-        assertEquals(15, ticket.size());
+        assertEquals(15, ticketNumbers.size());
 
         // Check that ticket has at least 1 and at most 3 numbers from each sequence
         // and that contains only numbers from 1 to 90
@@ -74,7 +74,7 @@ public class TicketGeneratorTest {
             int count = 0;
             for (Integer value: sequence) {
                 assertTrue(value >= 1 && value <= 90);
-                if (ticket.contains(value)) {
+                if (ticketNumbers.contains(value)) {
                     count++;
                 }
             }
@@ -85,15 +85,15 @@ public class TicketGeneratorTest {
     /**
      * Checks that the given ticket strip is well-formed
      */
-    private void checkTicketStrip(Set<Set<Integer>> ticketStrip) {
+    private void checkTicketStrip(Set<Set<Integer>> ticketStripNumbers) {
 
         // Check number of tickets in strip
-        assertEquals(6, ticketStrip.size());
+        assertEquals(6, ticketStripNumbers.size());
 
         // Check that all the numbers from 1 to 90 are used in strip
         // and that all the tickets are well-formed
         Set<Integer> numberUsedInStrip = new HashSet<>();
-        ticketStrip.forEach(ticket -> {
+        ticketStripNumbers.forEach(ticket -> {
             checkTicket(ticket);
             numberUsedInStrip.addAll(ticket);
         });
