@@ -9,18 +9,18 @@ public class TicketGenerator {
      *
      * @return a well-formed random Bingo ticket strip
      */
-    public Set<Set<Integer>> generateTicketStrip() {
+    public Set<List<Set<Integer>>> generateTicketStrip() {
 
         // Prepare the initial sequences of values from 1 to 90
         ArrayList<ArrayList<Integer>> sequences = getInitialSequences();
 
         // Prepare the tickets variable
-        Set<Set<Integer>> ticketStripNumbers = new HashSet<>();
+        Set<List<Set<Integer>>> ticketStripNumbers = new HashSet<>();
 
         for (int ticketNumInStrip = 1; ticketNumInStrip <= 6; ticketNumInStrip++) {
 
             // Generate a random ticket
-            Set<Integer> ticket = generateTicket(sequences, ticketNumInStrip);
+            List<Set<Integer>> ticket = generateTicket(sequences, ticketNumInStrip);
 
             // Add the generated ticket in tickets
             ticketStripNumbers.add(ticket);
@@ -35,19 +35,20 @@ public class TicketGenerator {
      *
      * @return a Bingo ticket
      */
-    public Set<Integer> generateTicket() {
+    public List<Set<Integer>> generateTicket() {
         return generateTicket(getInitialSequences(), 1);
     }
 
     /**
      * Generates a random, well-formed, Bingo ticket that uses only the numbers contained in the given "sequences"
      * also taking in consideration that there are 6 - "ticketNumInStrip" remaining tickets to complete a strip
-     * @param sequences the sequences of numbers to consider, it must contain numbers from 1 to 90
+     *
+     * @param sequences        the sequences of numbers to consider, it must contain numbers from 1 to 90
      * @param ticketNumInStrip the number of tickets already present in a strip, also considering this one
      * @return a Bingo ticket
      */
-    private Set<Integer> generateTicket(ArrayList<ArrayList<Integer>> sequences, int ticketNumInStrip) {
-        // Prepare the ticket variable
+    private List<Set<Integer>> generateTicket(ArrayList<ArrayList<Integer>> sequences, int ticketNumInStrip) {
+
         Set<Integer> ticketNumbers = new HashSet<>();
 
         // Add one random number from each sequence to the ticket (9)
@@ -95,7 +96,48 @@ public class TicketGenerator {
                 availableSequences.remove(sequenceIndex);
             }
         }
-        return ticketNumbers;
+
+        List<Set<Integer>> ticketLines = new ArrayList<>(){{
+            add(new HashSet<>());
+            add(new HashSet<>());
+            add(new HashSet<>());
+        }};
+
+        // Get a mutable list of the ticket numbers
+        ArrayList<Integer> ticketNumbersList = new ArrayList<>(ticketNumbers.stream().toList());
+
+        // Sort the ticket numbers descending based on the count of numbers in the same decade
+        ticketNumbersList.sort((o1, o2) -> {
+            int o1Count = (int) ticketNumbersList.stream()
+                    .filter(n -> (o1 == 90 ? 8 : o1 / 10) == (n == 90 ? 8 : n / 10))
+                    .count();
+            int o2Count = (int) ticketNumbersList.stream()
+                    .filter(n -> (o2 == 90 ? 8 : o2 / 10) == (n == 90 ? 8 : n / 10))
+                    .count();
+            if (o1Count == o2Count) {
+                return (o2 == 90 ? 8 : o2 / 10) - (o1 == 90 ? 8 : o1 / 10);
+            }
+            return o2Count - o1Count;
+        });
+
+        // Add each ticket number to one of the three ticket lines
+        for (Integer value : ticketNumbersList) {
+
+            // Select the smaller ticket line that do not already have a number of the same decade as the selected one
+            int lineIndex = 0;
+            for (int j = 1; j < ticketLines.size(); j++) {
+                if (ticketLines.get(j).size() < ticketLines.get(lineIndex).size() &&
+                        ticketLines.get(j).stream()
+                                .noneMatch(n -> (n == 90 ? 8 : n / 10) == (value == 90 ? 8 : value / 10))) {
+                    lineIndex = j;
+                }
+            }
+
+            // Add the selected number to the selected line
+            ticketLines.get(lineIndex).add(value);
+        }
+
+        return ticketLines;
     }
 
     /**

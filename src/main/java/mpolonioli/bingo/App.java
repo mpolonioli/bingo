@@ -9,7 +9,7 @@ public class App {
 
         // Generate ticket strip
         TicketGenerator ticketGenerator = new TicketGenerator();
-        Set<Set<Integer>> ticketStripNumbers = ticketGenerator.generateTicketStrip();
+        Set<List<Set<Integer>>> ticketStripNumbers = ticketGenerator.generateTicketStrip();
 
         // Print the tickets
         System.out.println(ticketStripNumbers);

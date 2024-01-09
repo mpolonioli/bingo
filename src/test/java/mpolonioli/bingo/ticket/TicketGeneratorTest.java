@@ -1,6 +1,7 @@
 package mpolonioli.bingo.ticket;
 
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -30,7 +31,7 @@ public class TicketGeneratorTest {
         TicketGenerator ticketGenerator = new TicketGenerator();
 
         // Generate a random ticket
-        Set<Integer> ticketNumbers = ticketGenerator.generateTicket();
+        List<Set<Integer>> ticketNumbers = ticketGenerator.generateTicket();
 
         // Check if ticket is well-formed
         checkTicket(ticketNumbers);
@@ -43,27 +44,38 @@ public class TicketGeneratorTest {
         TicketGenerator ticketGenerator = new TicketGenerator();
 
         // Generate a random ticket
-        Set<Set<Integer>> ticketStripNumbers = ticketGenerator.generateTicketStrip();
+        Set<List<Set<Integer>>> ticketStripNumbers = ticketGenerator.generateTicketStrip();
 
         // Check if ticket is well-formed
         checkTicketStrip(ticketStripNumbers);
     }
 
-    @Test
+    @RepeatedTest(10000)
     public void consistencyTest() {
-
-        // Run the well-formed ticket generation tests a lot of times
-        for (int i = 0; i <= 1000000; i++) {
-            generateTicketTest();
-            generateTicketStripTest();
-        }
-
+        generateTicketStripTest();
     }
 
     /**
      * Checks that the given ticket is well-formed
      */
-    private void checkTicket(Set<Integer> ticketNumbers) {
+    private void checkTicket(List<Set<Integer>> ticketLines) {
+
+        // Check ticketLines size
+        assertEquals(3, ticketLines.size());
+
+        // Check that each ticket line contains exactly 5 numbers and at most 1 number from each sequence
+        for(Set<Integer> ticketLine : ticketLines) {
+            assertEquals(5, ticketLine.size());
+            for(List<Integer> sequence : sequences) {
+                assertTrue(ticketLine.stream().filter(sequence::contains).count() <= 1);
+            }
+        }
+
+        // Get all the ticket numbers
+        Set<Integer> ticketNumbers = new HashSet<>();
+        for (Set<Integer> ticketLine : ticketLines) {
+            ticketNumbers.addAll(ticketLine);
+        }
 
         // Check ticket size
         assertEquals(15, ticketNumbers.size());
@@ -85,17 +97,19 @@ public class TicketGeneratorTest {
     /**
      * Checks that the given ticket strip is well-formed
      */
-    private void checkTicketStrip(Set<Set<Integer>> ticketStripNumbers) {
+    private void checkTicketStrip(Set<List<Set<Integer>>> tickets) {
 
         // Check number of tickets in strip
-        assertEquals(6, ticketStripNumbers.size());
+        assertEquals(6, tickets.size());
 
         // Check that all the numbers from 1 to 90 are used in strip
         // and that all the tickets are well-formed
         Set<Integer> numberUsedInStrip = new HashSet<>();
-        ticketStripNumbers.forEach(ticket -> {
-            checkTicket(ticket);
-            numberUsedInStrip.addAll(ticket);
+        tickets.forEach(ticketLines -> {
+            checkTicket(ticketLines);
+            for (Set<Integer> ticketLine : ticketLines) {
+                numberUsedInStrip.addAll(ticketLine);
+            }
         });
         assertEquals(90, numberUsedInStrip.size());
         for (List<Integer> sequence :sequences) {
